@@ -83,9 +83,17 @@ class Game {
             }
         }
         this.player = 0;
+        this.game_won = false;
     }
     make_move(m) {
         let [piece, x_1, y_1] = m;
+        // check if game is over
+        if (this.board[x_1][y_1 instanceof King]) {
+            let color = !this.board[x_1][y_1].color;
+            console.log("Game Over % wins", color);
+            this.game_won = true;
+        }
+        // update board
         let [x_0, y_0] = [piece.x, piece.y];
         piece.x = x_1;
         piece.y = y_1;
@@ -103,18 +111,21 @@ class Game {
                     } else {
                         moves = moves.concat(piece_moves);
                     }
-                    console.log(moves);
                 }
             }
         }
-        console.log('moves:', moves);
         let m = moves[Math.floor(Math.random() * moves.length)];
-        console.log('m:', m);
         this.make_move(m);
     }
 }
 
 console.log(STARTING_BOARD);
 let game = new Game();
-game.make_random_move(0);
+let player = 0
+let turns = 0;
+while (!game.game_won && turns < 30) {
+    game.make_random_move(player);
+    turns++;
+    player = !player;
+}
 console.log(game.board);
