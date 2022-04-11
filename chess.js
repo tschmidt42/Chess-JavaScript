@@ -7,6 +7,7 @@ class Piece {
         this.color = Math.floor(x / 6);
         this.x = x;
         this.y = y;
+        this.char = 'N';
     }
     
     legal_square(x_1, y_1) {
@@ -49,6 +50,11 @@ class Piece {
 }
 
 class King extends Piece {
+    constructor(game, x, y) {
+        super(game, x, y);
+        this.char = 'K';
+    }
+
     get_moves() {
         let moves = Array();
         for (let x_1 = this.x - 1; x_1 <= this.x + 1; x_1++) {
@@ -85,6 +91,7 @@ class Game {
         this.player = 0;
         this.game_won = false;
     }
+
     make_move(m) {
         let [piece, x_1, y_1] = m;
         // check if game is over
@@ -100,6 +107,7 @@ class Game {
         this.board[x_1][y_1] = piece;
         this.board[x_0][y_0] = null;
     }
+
     make_random_move(color) {
         let moves = [];
         for (let x = 0; x < 8; x++){
@@ -117,15 +125,31 @@ class Game {
         let m = moves[Math.floor(Math.random() * moves.length)];
         this.make_move(m);
     }
+
+    print_board() {
+        for (let x = 0; x < 8; x++) {
+            let str = '';
+            for (let y = 0; y < 8; y++) {
+                let p = this.board[x][y];
+                if (p == null) {
+                    str += '  ';
+                } else {
+                    str += ' ' + this.board[x][y].char;
+                }
+            }
+            console.log(str);
+        }
+        console.log('\n\n');
+    }
 }
 
-console.log(STARTING_BOARD);
 let game = new Game();
+game.print_board();
 let player = 0
 let turns = 0;
-while (!game.game_won && turns < 30) {
+while (!game.game_won && turns < 5) {
     game.make_random_move(player);
+    game.print_board();
     turns++;
     player = !player;
 }
-console.log(game.board);
