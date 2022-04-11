@@ -101,8 +101,7 @@ class Game {
                     if (moves.length == 0) {
                         moves = piece_moves;
                     } else {
-                        // something isn't working here
-                        moves.concat(piece_moves);
+                        moves = moves.concat(piece_moves);
                     }
                     console.log(moves);
                 }
