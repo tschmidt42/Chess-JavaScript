@@ -20,10 +20,26 @@ class Piece {
             return false;
         }
         // check move would move the piece
-        if (this.x == x_1 || this.y == y_1) {
+        if (this.x == x_1 && this.y == y_1) {
             return false;
         }
         return true;
+    }
+
+    incr(x_incr, y_incr) {
+        // console.log('incr', x_incr, y_incr);
+        let x_1 = this.x + x_incr;
+        let y_1 = this.y + y_incr;
+        let moves = [];
+        // console.log(x_1, y_1);
+        while (this.legal_square(x_1, y_1)) {
+            // console.log(x_1, y_1);
+            moves.push([this, x_1, y_1]);
+            x_1 += x_incr;
+            y_1 += y_incr;
+        }
+        // console.log('incr moves:', moves);
+        return moves;
     }
     
     // knight move function
@@ -69,9 +85,27 @@ class King extends Piece {
     }
 }
 
+class Rook extends Piece {
+    constructor(game, x, y) {
+        super(game, x, y);
+        this.char = 'R';
+    }
+
+    get_moves() {
+        // console.log('rook', this.x, this.y);
+        let moves = [];
+        for (let i = -1; i <= 1; i += 2) {
+            moves = moves.concat(this.incr(i, 0));
+            moves = moves.concat(this.incr(0, i));
+            // console.log('moves:', moves);
+        } 
+        return moves;
+    }
+}
+
 // maybe board should be typed array 
 // const piece_row = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook];
-const piece_row = [Piece, Piece, Piece, Piece, King, Piece, Piece, Piece];
+const piece_row = [Rook, Piece, Piece, Piece, King, Piece, Piece, Piece];
 let null_rows = [];
 for (i = 0; i < 6; i++) {
     null_rows.push(Array(8).fill(null));
@@ -95,7 +129,8 @@ class Game {
     make_move(m) {
         let [piece, x_1, y_1] = m;
         // check if game is over
-        if (this.board[x_1][y_1 instanceof King]) {
+        let piece_taken = this.board[x_1][y_1]; 
+        if (piece_taken != null && piece_taken instanceof King) {
             let color = !this.board[x_1][y_1].color;
             console.log("Game Over % wins", color);
             this.game_won = true;
