@@ -27,18 +27,14 @@ class Piece {
     }
 
     incr(x_incr, y_incr) {
-        // console.log('incr', x_incr, y_incr);
         let x_1 = this.x + x_incr;
         let y_1 = this.y + y_incr;
         let moves = [];
-        // console.log(x_1, y_1);
         while (this.legal_square(x_1, y_1)) {
-            // console.log(x_1, y_1);
             moves.push([this, x_1, y_1]);
             x_1 += x_incr;
             y_1 += y_incr;
         }
-        // console.log('incr moves:', moves);
         return moves;
     }
     
@@ -92,12 +88,10 @@ class Rook extends Piece {
     }
 
     get_moves() {
-        // console.log('rook', this.x, this.y);
         let moves = [];
         for (let i = -1; i <= 1; i += 2) {
             moves = moves.concat(this.incr(i, 0));
             moves = moves.concat(this.incr(0, i));
-            // console.log('moves:', moves);
         } 
         return moves;
     }
