@@ -114,6 +114,23 @@ class Bishop extends Piece {
     }
 }
 
+class Queen extends Piece {
+    constructor(game, x, y) {
+        super(game, x, y);
+        this.char = 'Q';
+    }
+
+    get_moves() {
+        let moves = [];
+        for (let i = -1; i <= 1; i++) {
+            for (let j = -1; j <= 1; j++) {
+                moves = moves.concat(this.incr(i, j));
+            }
+        } 
+        return moves;
+    }
+}
+
 class Knight extends Piece {
     constructor(game, x, y) {
         super(game, x, y);
@@ -144,7 +161,7 @@ class Knight extends Piece {
 
 // maybe board should be typed array 
 // const piece_row = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook];
-const piece_row = [Rook, Knight, Bishop, Piece, King, Bishop, Knight, Rook];
+const piece_row = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook];
 let null_rows = [];
 for (i = 0; i < 6; i++) {
     null_rows.push(Array(8).fill(null));
@@ -221,7 +238,7 @@ let game = new Game();
 game.print_board();
 let player = 0
 let turns = 0;
-while (!game.game_won && turns < 5) {
+while (!game.game_won && turns < 7) {
     game.make_random_move(player);
     game.print_board();
     turns++;
