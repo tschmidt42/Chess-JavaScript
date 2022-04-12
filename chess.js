@@ -97,9 +97,54 @@ class Rook extends Piece {
     }
 }
 
+class Bishop extends Piece {
+    constructor(game, x, y) {
+        super(game, x, y);
+        this.char = 'B';
+    }
+
+    get_moves() {
+        let moves = [];
+        for (let i = -1; i <= 1; i += 2) {
+            for (let j = -1; j <= 1; j += 2) {
+                moves = moves.concat(this.incr(i, j));
+            }
+        } 
+        return moves;
+    }
+}
+
+class Knight extends Piece {
+    constructor(game, x, y) {
+        super(game, x, y);
+        this.char = 'N';
+    }
+
+    get_moves() {
+        let moves = Array();
+        for (let i = -1; i <= 1; i += 2) {
+            for (let j = -2; j <= 2; j += 4) {
+                // moves in x direction by one and y by two
+                let x_1 = this.x + i;
+                let y_1 = this.y + j;
+                if (this.legal_square(x_1, y_1)) {
+                    moves.push([this, x_1, y_1]);
+                }
+                // moves in y direction by two and y by one
+                x_1 = this.x + j;
+                y_1 = this.y + i;
+                if (this.legal_square(x_1, y_1)) {
+                    moves.push([this, x_1, y_1]);
+                }
+            }
+        } 
+        return moves;
+    }
+}
+
 // maybe board should be typed array 
 // const piece_row = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook];
-const piece_row = [Rook, Piece, Piece, Piece, King, Piece, Piece, Piece];
+const piece_row = [Rook, Knight, Bishop, Piece, King, Bishop, Knight, Rook];
 let null_rows = [];
 for (i = 0; i < 6; i++) {
     null_rows.push(Array(8).fill(null));
