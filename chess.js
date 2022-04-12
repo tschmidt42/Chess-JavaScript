@@ -4,7 +4,7 @@ class Piece {
     constructor(game, x, y) {
         this.game = game;
         // pieces in the first two rows are white (0) and the last two are black (1)
-        this.color = Math.floor(x / 6);
+        this.color = Math.floor(x / (BOARD_SIZE - 2));
         this.x = x;
         this.y = y;
         this.char = 'N';
@@ -35,28 +35,6 @@ class Piece {
             x_1 += x_incr;
             y_1 += y_incr;
         }
-        return moves;
-    }
-    
-    // knight move function
-    get_moves() {
-        let moves = Array();
-        for (let i = -1; i <= 1; i += 2) {
-            for (let j = -2; j <= 2; j += 4) {
-                // moves in x direction by one and y by two
-                let x_1 = this.x + i;
-                let y_1 = this.y + j;
-                if (this.legal_square(x_1, y_1)) {
-                    moves.push([this, x_1, y_1]);
-                }
-                // moves in y direction by two and y by one
-                x_1 = this.x + j;
-                y_1 = this.y + i;
-                if (this.legal_square(x_1, y_1)) {
-                    moves.push([this, x_1, y_1]);
-                }
-            }
-        } 
         return moves;
     }
 }
@@ -160,7 +138,6 @@ class Knight extends Piece {
 }
 
 // maybe board should be typed array 
-// const piece_row = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook];
 const piece_row = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook];
 let null_rows = [];
 for (i = 0; i < 6; i++) {
