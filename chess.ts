@@ -42,6 +42,11 @@ class Piece {
         }
         return moves;
     }
+
+    // implemented in child classes
+    get_moves() {
+        return Array();
+    }
 }
 
 class King extends Piece {
@@ -151,7 +156,7 @@ class Knight extends Piece {
 const piece_row = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook];
 let null_rows = [];
 for (let i = 0; i < 6; i++) {
-    null_rows.push(Array(8).fill(null));
+    null_rows.push(Array(BOARD_SIZE).fill(null));
 }
 const STARTING_BOARD = [piece_row].concat(null_rows).concat([[...piece_row]]);
 
@@ -161,9 +166,9 @@ class Game {
     game_won: boolean;
     constructor(){
         this.board = Array();
-        for (let x = 0; x < 8; x++) {
-            let row = Array(8);
-            for (let y = 0; y < 8; y++) {
+        for (let x = 0; x < BOARD_SIZE; x++) {
+            let row = Array(BOARD_SIZE);
+            for (let y = 0; y < BOARD_SIZE; y++) {
                 if (STARTING_BOARD[x][y] != null) {
                     row[y] = new STARTING_BOARD[x][y](this, x, y);
                 } else {
@@ -195,8 +200,8 @@ class Game {
 
     make_random_move(color: boolean) {
         let moves = [];
-        for (let x = 0; x < 8; x++){
-            for (let y = 0; y < 8; y++) {
+        for (let x = 0; x < BOARD_SIZE; x++){
+            for (let y = 0; y < BOARD_SIZE; y++) {
                 if (this.board[x][y] != null) {
                     let piece_moves = this.board[x][y].get_moves();
                     if (moves.length == 0) {
@@ -212,9 +217,9 @@ class Game {
     }
 
     print_board() {
-        for (let x = 0; x < 8; x++) {
+        for (let x = 0; x < BOARD_SIZE; x++) {
             let str = '';
-            for (let y = 0; y < 8; y++) {
+            for (let y = 0; y < BOARD_SIZE; y++) {
                 let p = this.board[x][y];
                 if (p == null) {
                     str += '  ';
