@@ -160,13 +160,17 @@ class Game {
     player: number;
     game_won: boolean;
     constructor(){
-        this.board = STARTING_BOARD;
+        this.board = Array();
         for (let x = 0; x < 8; x++) {
+            let row = Array(8);
             for (let y = 0; y < 8; y++) {
-                if (this.board[x][y] != null) {
-                    this.board[x][y] = new this.board[x][y](this, x, y);
+                if (STARTING_BOARD[x][y] != null) {
+                    row[y] = new STARTING_BOARD[x][y](this, x, y);
+                } else {
+                    row.push(null);
                 }
             }
+            this.board.push(row);
         }
         this.player = 0;
         this.game_won = false;

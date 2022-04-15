@@ -172,13 +172,18 @@ for (var i = 0; i < 6; i++) {
 var STARTING_BOARD = [piece_row].concat(null_rows).concat([__spreadArray([], piece_row, true)]);
 var Game = /** @class */ (function () {
     function Game() {
-        this.board = STARTING_BOARD;
+        this.board = Array();
         for (var x = 0; x < 8; x++) {
+            var row = Array(8);
             for (var y = 0; y < 8; y++) {
-                if (this.board[x][y] != null) {
-                    this.board[x][y] = new this.board[x][y](this, x, y);
+                if (STARTING_BOARD[x][y] != null) {
+                    row[y] = new STARTING_BOARD[x][y](this, x, y);
+                }
+                else {
+                    row.push(null);
                 }
             }
+            this.board.push(row);
         }
         this.player = 0;
         this.game_won = false;
